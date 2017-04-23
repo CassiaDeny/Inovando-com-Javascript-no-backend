@@ -1,6 +1,7 @@
 //retorna uma função não inicializada
 var express = require('express');
 var load = require('express-load');
+var bodyParser = require('body-parser');
 
 //invocando a função
 var app = express();
@@ -15,6 +16,13 @@ module.exports = () => {
     //indica onde ficará a pasta de views, por default, é na raiz da app
     //mas como eu coloquei ela dentro de app/ então preciso informar ao express
     app.set('views', './app/views');
+
+    //o use recebe funções que vão ser aplicadas ao request na ordem q for definida aqui
+    //é o que chamamos de middleware
+    //que são funções que são aplicadas antes do tratamento da requisição
+    //ex.: req -> middleware do bodyparser -> middleware de autenticação -> função que trata a requisição
+    //urlencoded é o formato default que o formulário envia os dados (post) para o servidor
+    app.use(bodyParser.urlencoded());
 
     //o load carrega os módulos de forma a não ser necessário ficar fazendo require
     //ao mesmo tempo que ele carrega ele também executa o objeto, então se você não quiser isso

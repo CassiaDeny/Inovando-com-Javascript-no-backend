@@ -5,9 +5,9 @@
      console.log("chamou dentro do factory");
      return mysql.createConnection({
          host: 'localhost',
-         user: 'admin',
-         password: 'admin',
-         database: 'teste_alura'
+         user: 'root',
+         password: 'root',
+         database: 'alura'
      });
  }
 
