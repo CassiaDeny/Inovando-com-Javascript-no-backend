@@ -22,7 +22,8 @@ module.exports = () => {
     //que são funções que são aplicadas antes do tratamento da requisição
     //ex.: req -> middleware do bodyparser -> middleware de autenticação -> função que trata a requisição
     //urlencoded é o formato default que o formulário envia os dados (post) para o servidor
-    app.use(bodyParser.urlencoded());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
     //o load carrega os módulos de forma a não ser necessário ficar fazendo require
     //ao mesmo tempo que ele carrega ele também executa o objeto, então se você não quiser isso
@@ -30,6 +31,6 @@ module.exports = () => {
     //a ordem das pastas interferem se uma que depende da outra for carregada primeiro
     //o parâmetro em json cwd indica o diretório onde o express deve procurar os módulos
     //caso não seja informado, ele irá pesquisar no projeto inteiro
-    load('infra', { cwd: 'app' }).then('routes').into(app);
+    load('routes', { cwd: 'app' }).then('infra').into(app);
     return app;
 }

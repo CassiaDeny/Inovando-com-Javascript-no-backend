@@ -2,12 +2,12 @@
  console.log('carregou o módulo de infra');
 
  var createDBConnection = () => {
-     console.log("chamou dentro do factory");
+     console.log("Criou conexão com o DB");
      return mysql.createConnection({
          host: 'localhost',
-         user: 'root',
-         password: 'root',
-         database: 'alura'
+         user: 'admin',
+         password: 'admin',
+         database: 'teste_alura'
      });
  }
 
