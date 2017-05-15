@@ -8,7 +8,6 @@ module.exports = (app) => {
         var produtosDAO = new app.infra.ProdutosDAO(connection);
 
         produtosDAO.lista(function(erros, resultados) {
-            debugger;
             res.format({
                 'html': () => {
                     res.render('produtos/lista', { lista: resultados });
@@ -23,17 +22,36 @@ module.exports = (app) => {
     });
 
     app.get('/produtos/form', (req, res) => {
-        res.render('produtos/form');
+        res.render('produtos/form', { errosValidacao: {}, produto: {} });
     });
 
     app.post('/produtos', (req, res) => {
-
 
         const produto = {
             titulo: req.body.titulo,
             descricao: req.body.descricao,
             preco: req.body.preco
         };
+
+        //validação dos dados
+        req.assert('titulo', 'Título do produto é obrigatório!').notEmpty();
+        req.assert('descricao', 'Descrição do produto é obrigatória').notEmpty();
+        req.assert('preco', 'Preço com formato inválido!').isFloat();
+
+        var erros = req.validationErrors();
+        if (erros) {
+
+            res.format({
+                'html': () => {
+                    res.status(400).render('produtos/form', { errosValidacao: erros, produto: produto });
+                },
+                'json': () => {
+                    res.status(400).json(erros);
+                }
+            });
+            console.log(res.status);
+            return;
+        }
 
         console.log(req.body);
 
@@ -47,4 +65,5 @@ module.exports = (app) => {
             res.redirect('/produtos');
         });
     })
+
 }

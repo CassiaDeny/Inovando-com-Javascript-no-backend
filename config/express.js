@@ -2,6 +2,7 @@
 var express = require('express');
 var load = require('express-load');
 var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 
 //invocando a função
 var app = express();
@@ -24,6 +25,7 @@ module.exports = () => {
     //urlencoded é o formato default que o formulário envia os dados (post) para o servidor
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(expressValidator());
 
     //o load carrega os módulos de forma a não ser necessário ficar fazendo require
     //ao mesmo tempo que ele carrega ele também executa o objeto, então se você não quiser isso
